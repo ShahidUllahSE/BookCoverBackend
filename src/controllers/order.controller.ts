@@ -1,9 +1,92 @@
+// import { Request, Response } from "express";
+// import { Order, IOrder } from "../models/order.model";
+// import { Package } from "../models/package.model";
+// import { AddOn, IAddOn } from "../models/addOn.model";
+// import { createOrder, getAllOrdersService } from "../services/order.service"; // Import the service function
+// import { ErrorResponse,createErrorResponse } from "../utils/errorResponse"; // Optional: Custom error handling
+// import { getOrdersByUserIdService } from "../services/order.service"; // Import the service function
+
+// /**
+//  * Handles the creation of a new order.
+//  * @param req - The request object.
+//  * @param res - The response object.
+//  */
+// export const handleCreateOrder = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const {
+//       userId,
+//       packageId,
+//       addOnIds,
+//       bookTitle,
+//       bookSubtitle,
+//       authorName,
+//       genre,
+//       seriesContinuation,
+//       summary,
+//       coverStyle,
+//       coverMood,
+//       colorPalette,
+//       examples,
+//       file,
+//       firstOrder,
+//       shareOnPortfolio,
+//       paymentMethod,
+//       status,
+//     } = req.body;
+
+//     // Call the service to create an order
+//     const newOrder = await createOrder(
+//       userId,
+//       packageId,
+//       addOnIds,
+//       {
+//         bookTitle,
+//         bookSubtitle,
+//         authorName,
+//         genre,
+//         seriesContinuation,
+//         summary,
+//         coverStyle,
+//         coverMood,
+//         colorPalette,
+//         examples,
+//         file,
+//         firstOrder,
+//         shareOnPortfolio,
+//         paymentMethod,
+//         status: "Submitted", // Order status is Pending by default
+//         paymentStatus: "Unpaid", // Assuming default payment status is Unpaid
+//       }
+//     );
+
+//     // Respond with the created order
+//     res.status(201).json({
+//       message: "Order placed successfully",
+//       order: newOrder,
+//     });
+//   } catch (error) {
+//     // Handle error using the error response factory
+//     const customError = error as ErrorResponse;
+
+//     if (customError && customError.statusCode) {
+//       res.status(customError.statusCode).json({ message: customError.message, stack: customError.stack });
+//     } else {
+//       // Handle unknown errors
+//       const unknownError = createErrorResponse("Error creating order", 500);
+//       res.status(unknownError.statusCode).json({ message: unknownError.message, stack: unknownError.stack });
+//     }
+//   }
+// };
+
+
+// UPDATED ONE 
+
 import { Request, Response } from "express";
 import { Order, IOrder } from "../models/order.model";
 import { Package } from "../models/package.model";
 import { AddOn, IAddOn } from "../models/addOn.model";
 import { createOrder, getAllOrdersService } from "../services/order.service"; // Import the service function
-import { ErrorResponse,createErrorResponse } from "../utils/errorResponse"; // Optional: Custom error handling
+import { ErrorResponse, createErrorResponse } from "../utils/errorResponse"; // Optional: Custom error handling
 import { getOrdersByUserIdService } from "../services/order.service"; // Import the service function
 
 /**
@@ -14,7 +97,7 @@ import { getOrdersByUserIdService } from "../services/order.service"; // Import 
 export const handleCreateOrder = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
-      userId,
+      userId, // Extract userId from the request body
       packageId,
       addOnIds,
       bookTitle,
@@ -34,9 +117,12 @@ export const handleCreateOrder = async (req: Request, res: Response): Promise<vo
       status,
     } = req.body;
 
+    // Log the received userId for debugging
+    console.log("Received userId:", userId);
+
     // Call the service to create an order
     const newOrder = await createOrder(
-      userId,
+      userId,  // Make sure the correct userId is passed
       packageId,
       addOnIds,
       {
@@ -77,8 +163,6 @@ export const handleCreateOrder = async (req: Request, res: Response): Promise<vo
     }
   }
 };
-
-
 
 /**
  * Handles fetching orders by userId.
