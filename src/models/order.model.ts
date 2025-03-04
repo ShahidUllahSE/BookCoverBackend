@@ -21,6 +21,7 @@ export interface IOrder extends Document {
   firstOrder?: boolean;
   shareOnPortfolio?: boolean;
   paymentMethod: string;
+  userContacts?: string[]; // New field for sharing contacts freely
 }
 
 const OrderSchema = new Schema<IOrder>({
@@ -44,6 +45,7 @@ const OrderSchema = new Schema<IOrder>({
   firstOrder: { type: Boolean },
   shareOnPortfolio: { type: Boolean },
   paymentMethod: { type: String },
+  userContacts: { type: [String], default: [] }, // New field for contacts
 }, { timestamps: true });
 
 export const Order = mongoose.model<IOrder>("Order", OrderSchema);

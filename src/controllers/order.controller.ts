@@ -115,6 +115,7 @@ export const handleCreateOrder = async (req: Request, res: Response): Promise<vo
       shareOnPortfolio,
       paymentMethod,
       status,
+      userContacts,  // New field for user contacts
     } = req.body;
 
     // Log the received userId for debugging
@@ -142,6 +143,7 @@ export const handleCreateOrder = async (req: Request, res: Response): Promise<vo
         paymentMethod,
         status: "Submitted", // Order status is Pending by default
         paymentStatus: "Unpaid", // Assuming default payment status is Unpaid
+        userContacts,  // Passing the new field
       }
     );
 
@@ -163,6 +165,7 @@ export const handleCreateOrder = async (req: Request, res: Response): Promise<vo
     }
   }
 };
+
 
 /**
  * Handles fetching orders by userId.
